@@ -9,6 +9,7 @@ data Node = Node {getPosition :: Position, getNodeChar :: Maybe Char} deriving (
 
 -- easier for looking up
 -- type GogenGrid = Map.Map Position Node
+
 data GogenGrid = GogenGrid [Node] deriving (Show)
 
 type InputWords = [String]
