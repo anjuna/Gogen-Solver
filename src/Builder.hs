@@ -5,26 +5,23 @@ module Builder
 where
 
 import CustomTypes
+import Control.Comonad.Env (EnvT(..), ask)
+import Control.Comonad.Store (Store, store, peek, pos, seek)
 
 resourcesLocation :: FilePath
 -- resourcesLocation = "~/Code/Hask/projects/gogen/src/"
 resourcesLocation = "/Users/jwj/Code/Hask/projects/gogen/src/"
 
-buildGogen :: IO (GogenGrid, InputWords)
+buildGogen :: IO (GogenGrid)
 buildGogen = do 
-    letters <- fmap lines $ readFile (resourcesLocation ++ "letters.txt")
     inputWords <- fmap lines $ readFile (resourcesLocation ++ "words.txt")
-    return (makeGrid letters, inputWords)
+    letters    <- fmap lines $ readFile (resourcesLocation ++ "letters.txt")
+    return (makeGrid letters inputWords)
 
---Start at 0 0 in top left corner. Going right increments x coord, going down increments y coord
-makeGrid :: [String] -> GogenGrid
-makeGrid ss = GogenGrid (map toNode (toXYCoords ss)) (Position 0 0)
-    where 
-        -- split the x and y into two functions??
-          toXYCoords input = concat $ zipWith (\n ns -> map (n,) ns) [0..] (map (zip [0..]) input)
-          toNode (y, (x, char)) = let val = case char of ' ' ->  Nothing
-                                                         c -> Just c
-                                in Node (Position x y) val
+
+-- default to 5 x 5 grid
+makeGrid :: [String] -> InputWords -> GogenGrid
+makeGrid ss words = EnvT ((5, 5), words) (store (\(x, y) -> (ss !! y) !! x) (0, 0))
 
 
 

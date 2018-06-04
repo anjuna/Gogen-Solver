@@ -1,15 +1,16 @@
 module CustomTypes where
 
-data Position = Position Int Int deriving (Show, Ord, Eq)
-
-data Node = Node {getPosition :: Position, getNodeChar :: Maybe Char} deriving (Show, Ord, Eq)
+import Control.Comonad.Env (EnvT(..))
+import Control.Comonad.Store (Store)
 
 -- easier for looking up
 -- type GogenGrid = Map.Map Position Node
 
 -- can turn this in to a Comonad instance??
-data GogenGrid = GogenGrid {nodes ::[Node], focus :: Position} deriving (Show)
+type Position = (Int, Int)
+type Dimensions = (Int, Int)
+type InputWords = [String]
+type GogenGrid = EnvT (Dimensions, InputWords) (Store Position) Char
 
 -- maybe some sort of environment that is passed around
-type InputWords = [String]
 
