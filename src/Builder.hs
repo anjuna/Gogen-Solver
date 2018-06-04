@@ -20,6 +20,7 @@ buildGogen = do
 
 
 -- default to 5 x 5 grid
+-- initial pos is top left of grid, ascending x goes across, ascending y goes down
 makeGrid :: [String] -> InputWords -> GogenGrid
 makeGrid ss words = EnvT ((5, 5), words) (store (\(x, y) -> (ss !! y) !! x) (0, 0))
 
