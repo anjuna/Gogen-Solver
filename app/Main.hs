@@ -1,6 +1,7 @@
 module Main where
 
-import Gogen
+import Builder
 
 main :: IO ()
 main = putStrLn "yo"
+

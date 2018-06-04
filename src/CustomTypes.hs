@@ -7,6 +7,9 @@ data Node = Node {getPosition :: Position, getNodeChar :: Maybe Char} deriving (
 -- easier for looking up
 -- type GogenGrid = Map.Map Position Node
 
-data GogenGrid = GogenGrid [Node] deriving (Show)
+-- can turn this in to a Comonad instance??
+data GogenGrid = GogenGrid {nodes ::[Node], focus :: Position} deriving (Show)
 
+-- maybe some sort of environment that is passed around
 type InputWords = [String]
+
